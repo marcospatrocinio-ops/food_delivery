@@ -1,0 +1,7 @@
+create sequence APEX_WEB_SERVICE_ACTIVITY_SEQ
+minvalue 1
+maxvalue 9999999999999999999
+start with 726682
+increment by 1
+cache 20;
+
