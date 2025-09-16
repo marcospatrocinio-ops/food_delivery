@@ -1,0 +1,12 @@
+create or replace trigger "PEDIDO_CAB_TRG"
+before
+insert or update or delete on "PEDIDO_CAB"
+for each row
+begin
+  if inserting then 
+    if :new.PEDIDO_ID is null then 
+      select PEDIDO_CAB_SEQ.nextval into :new.PEDIDO_ID from dual; 
+    end if; 
+  end if; 
+end;
+/

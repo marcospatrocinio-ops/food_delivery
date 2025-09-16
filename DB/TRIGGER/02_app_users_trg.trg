@@ -1,7 +1,6 @@
-CREATE OR REPLACE TRIGGER APP_USERS_TRG
-  BEFORE INSERT OR UPDATE ON APP_USERS
-  FOR EACH ROW
--- {{all_keywords_git}}
+CREATE OR REPLACE TRIGGER app_users_trg
+  before insert or update on app_users
+  for each row
 begin
   if inserting then
     if :new.iduser is null then
@@ -11,4 +10,3 @@ begin
   end if;
 end;
 /
-

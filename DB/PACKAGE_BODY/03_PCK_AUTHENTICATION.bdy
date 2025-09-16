@@ -1,0 +1,42 @@
+CREATE OR REPLACE PACKAGE BODY PCK_AUTHENTICATION as
+  --
+  function fnc_get_validate_user(puser in varchar2, ppass in varchar2)
+    return integer as
+    v_existe number;
+  begin
+    select count(1)
+      into v_existe
+      from app_users u
+     where upper(u.user_login) = upper(puser)
+       and u.user_password = pck_security.fnc_encrypt_password(ppass);
+    --
+    if v_existe = 1 then
+      return 1;
+    else
+      return 0;
+    end if;
+    --
+  exception
+    when others then
+      dbms_output.put_line(sqlerrm);
+      return 0;
+      --
+  end fnc_get_validate_user;
+  --
+  function fnc_validate_user(p_username in varchar2,
+                             p_password in varchar2) return boolean as
+  begin
+
+    if (p_password is not null and
+       fnc_get_validate_user(p_username, p_password) = 1) then
+      apex_util.set_authentication_result(0);
+      return true;
+    else
+      apex_util.set_authentication_result(4);
+      return false;
+    end if;
+
+  end fnc_validate_user;
+  --
+end PCK_AUTHENTICATION;
+/

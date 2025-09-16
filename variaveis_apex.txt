@@ -1,0 +1,46 @@
+🔹 Principais Variáveis Internas do Oracle APEX
+Contexto da Aplicação
+
+&APP_ID. → ID da aplicação.
+
+&APP_ALIAS. → Alias (nome curto) da aplicação.
+
+&APP_NAME. → Nome da aplicação.
+
+&APP_PAGE_ID. → ID da página atual.
+
+&APP_SESSION. → Número da sessão atual.
+
+&APP_USER. → Usuário autenticado (ou APEX_PUBLIC_USER se não autenticado).
+
+&AI. → Igual a &APP_ID. (atalho).
+
+&APP_DATE_TIME_FORMAT. → Formato de data/hora da aplicação.
+
+Contexto de Página
+
+&APP_PAGE_ALIAS. → Alias da página atual.
+
+&DEBUG. → Nível de debug da sessão.
+
+&APP_FILES. → Caminho para os arquivos de aplicação (imagens, CSS, JS).
+
+&APP_IMAGES. → Caminho para imagens compartilhadas da aplicação.
+
+Substituições do Workspace
+
+&WORKSPACE_ID. → ID do workspace.
+
+&WORKSPACE_NAME. → Nome do workspace.
+
+&WORKSPACE_IMAGES. → Caminho para arquivos/imagens do workspace.
+
+Outras variáveis úteis
+
+&APP_ICON. → Ícone definido na aplicação.
+
+&IMAGE_PREFIX. → Caminho raiz para recursos estáticos do APEX.
+
+&FLOW_ID. → Alias legado para &APP_ID.
+
+&SESSION. → Alias legado para &APP_SESSION.
