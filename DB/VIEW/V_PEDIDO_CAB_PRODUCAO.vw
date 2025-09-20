@@ -1,0 +1,56 @@
+  CREATE OR REPLACE VIEW "V_PEDIDO_CAB_PRODUCAO" 
+   AS 
+  select ped.rowid chave,  
+ to_char(ped.PEDIDO_ID) PEDIDO_ID,  
+ ped.LOJA_ID,  
+ ped.TIPO_ENTREGA,  
+ ped.TIPO_ORIGEM,  
+ ped.DATA_ENTRADA,  
+ -- data  
+ ped.PEDIDO_ID card_primary_key,    -- primary key  
+ --ped.CLIENTE_ID card_secondary_key,  -- secondary key if needed  
+ cli.nome card_title,          -- title  
+  'Ent.: '||to_char(ped.data_entrada,'HH24:MM') card_subtitle,       -- subtitle  
+  'texto teste 01' card_body,           -- card body text  
+  'texto teste 02' card_secondary_body, -- card secondary text, positioned near bottom  
+  decode(ped.TIPO_ENTREGA,'R','Retirada Balcão','E','Para Entrega','') TIPO_ENTREGA_TXT, 
+  decode(ped.TIPO_ORIGEM,'B','Balcão Loja','O','OnLine','') TIPO_ORIGEM_TXT, 
+   
+  -- ui and other attributes  
+  case   
+    when ped.TIPO_ENTREGA = 'R' then   
+  (select setup_value from APP_SETUP where setup = 'ICON_TIPO_ENTREGA_R')  
+    when ped.TIPO_ENTREGA = 'E' then   
+  (select trim(setup_value) from APP_SETUP where setup = 'ICON_TIPO_ENTREGA_E')  
+  else ''  
+  end as card_icon_entrega,         -- icon class, e.g. fa-cloud  
+--  
+    case   
+    when ped.TIPO_ORIGEM = 'B' then  
+  (select setup_value from APP_SETUP where setup = 'ICON_TIPO_ORIGEM_B')  
+    when ped.TIPO_ORIGEM = 'O' then  
+  (select setup_value from APP_SETUP where setup = 'ICON_TIPO_ORIGEM_O')  
+    when ped.TIPO_ORIGEM = 'I' then  
+  (select setup_value from APP_SETUP where setup = 'ICON_TIPO_ORIGEM_I')  
+  else ''  
+  end as card_icon_origem,         -- icon class, e.g. fa-cloud  
+--  
+   case   
+    when ped.data_entrada + (10 / (24*60)) < sysdate  then  
+  (select setup_value from APP_SETUP where setup = 'ICON_SLEEPING')  
+  else ''  
+  end as card_icon_tempo,         -- icon class, e.g. fa-cloud  
+  --- 
+   case   
+    when ped.data_entrada + (10 / (24*60)) < sysdate  then  
+  'Pedido Atrasado'  
+  else ''  
+  end as TEMPO_TXT,         -- icon class, e.g. fa-cloud  
+---  
+  '' card_badge,          -- badge, can be a small text  
+  '' card_image           -- image url, url or blob columns  
+from pedido_cab ped,  
+     cad_cliente cli  
+where ped.cliente_id = cli.cliente_id  
+and ped.status = 2 -- Em produção
+order by ped.DATA_ENTRADA;
